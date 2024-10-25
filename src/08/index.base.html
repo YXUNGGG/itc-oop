@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <link rel="stylesheet" href="./style.css">
+  <script src="./index.base.js"></script>
+</head>
+<body>
+  <div id="wrapper"></div>
+  <div id="message"></div>
+  <div>
+    <button id="create">create</button>
+    <button id="on">on</button>
+    <button id="off">off</button>
+  </div>
+  <script>
+    const btnCreate = document.querySelector("#create");
+    const btnOn = document.querySelector("#on");
+    const btnOff = document.querySelector("#off");
+    const msg = document.querySelector("#message");
+
+    if (typeof TextInput !== "undefined") {
+
+      const ti = new TextInput("#wrapper");
+      const handler = (value) => { msg.innerHTML = value };
+
+      btnCreate.addEventListener("click", () => {
+        ti.create("name", "value");
+      });
+
+      btnOn.addEventListener("click", () => ti.onInput(handler));
+      btnOff.addEventListener("click", () => ti.off());
+    } else {
+      msg.innerHTML = "Не могу найти класс TextInput";
+    }
+  </script>
+</body>
+</html>

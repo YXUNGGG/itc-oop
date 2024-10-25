@@ -1,0 +1,10 @@
+#wrapper, #message {
+  width: 100vh;
+  height: 20vw;
+
+  font-size: 24px;
+}
+
+#wrapper input {
+  font-size: 36px;
+}
