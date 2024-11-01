@@ -19,6 +19,17 @@
 //
 class DataContainer {
   constructor(data = {}) {
+    this.data = { ...data };
+  }
+
+  getData() {
+    return this.data;
+  }
+
+  getUpdater() {
+    return (name, value) => {
+      this.data[name] = value;
+    }
   }
 }
 
@@ -26,6 +37,9 @@ class DataContainer {
 //
 class BaseInput {
   constructor(name, value = '', label = name) {
+    this.name = name;
+    this.value = value;
+    this.label = label;
   }
 }
 
@@ -45,9 +59,20 @@ class BaseInput {
 //
 class TextInput extends BaseInput {
   render(container) {
+    //this.container = container;
+    this.input = document.createElement("input");
+    
+    this.input.setAttribute("name", this.name);
+    this.input.setAttribute("type", "text");
+    this.input.setAttribute("value", this.value);
+    this.input.setAttribute("label", this.label);
+
+    container.appendChild(this.input);
   }
 
   subscribe(updater) {
+    this.handler = () => updater(this.name, this.input.value);
+    this.input.addEventListener("input", this.handler);
   }
 }
 
@@ -61,8 +86,24 @@ class TextInput extends BaseInput {
 //
 class CheckboxInput extends BaseInput {
   render(container) {
+    const content = document.createElement("div");
+    const labelOfInput = document.createElement("label");
+    const checkboxInput = document.createElement("input");
+
+    checkboxInput.name = this.name;
+    checkboxInput.type = "checkbox";
+    labelOfInput.textContent = this.label;
+    this.value ? checkboxInput.checked = "Checked" : null;
+
+    content.appendChild(labelOfInput);
+    content.appendChild(checkboxInput);
+    container.appendChild(content);
+
+    this.input = checkboxInput;
   }
 
   subscribe(updater) {
+    let handler = () => updater(this.name, this.input.checked);
+    this.input.addEventListener("input", handler);
   }
 }
