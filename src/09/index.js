@@ -65,14 +65,14 @@ class TextInput extends BaseInput {
     this.input.setAttribute("name", this.name);
     this.input.setAttribute("type", "text");
     this.input.setAttribute("value", this.value);
-    this.input.setAttribute("label", this.label);
 
     container.appendChild(this.input);
   }
 
   subscribe(updater) {
-    this.handler = () => updater(this.name, this.input.value);
-    this.input.addEventListener("input", this.handler);
+    let handler = () => updater(this.name, this.input.value);
+    this.input.addEventListener("input", handler);
+    handler();
   }
 }
 
@@ -105,5 +105,6 @@ class CheckboxInput extends BaseInput {
   subscribe(updater) {
     let handler = () => updater(this.name, this.input.checked);
     this.input.addEventListener("input", handler);
+    handler();
   }
 }
